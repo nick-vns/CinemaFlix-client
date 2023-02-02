@@ -21,3 +21,9 @@ Build a client-side for an app myFlix using React, myFlix based on existing serv
 + Displays favorite movies
 + Allows users to remove a movie from their list of favorites
 + Allows existing users to deregister
+
+## Techstack
++ React
++ HTML
++ JS SCSS
++ JS transpiled by Parcel
