@@ -1,6 +1,6 @@
 # myFlix-client
 
-## Objective 
+## Description 
 
 Build a client-side for an app myFlix using React, myFlix based on existing server-side code REST API and database.
 
