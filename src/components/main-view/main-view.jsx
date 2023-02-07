@@ -29,9 +29,10 @@ export const MainView = () => {
   
   if (selectedMovie) {
 
-    let similarMovie = movies.filter(checkGenre);
-    function checkGenre(movie) {
-      if (movie.Genre.Name === selectedMovie.Genre.Name && movie.id !== selectedMovie.id) {
+    let similarDirector = movies.filter(checkDirector);
+
+    function checkDirector(movie) {
+      if (movie.Director.Name === selectedMovie.Director.Name && movie.id !== selectedMovie.id) {
         return true;
       };
     };
@@ -39,10 +40,10 @@ export const MainView = () => {
       <>
       <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
       <hr />
-      <h3>Similar Movies</h3>
-      {similarMovie.length > 0 && 
+      <h3>Similar Director</h3>
+      {similarDirector.length > 0 && 
       <div>
-      {similarMovie.map((movie) => (
+      {similarDirector.map((movie) => (
         <MovieCard
         key = {movie.id}
         movie = {movie}
@@ -53,13 +54,13 @@ export const MainView = () => {
       ))}
       </div> 
     }
-    {similarMovie.length === 0 && 
-    <div>No similar movies found.</div>
+    {similarDirector.length === 0 && 
+    <div>No similar directors found.</div>
     }
       </>
     );
   }
-
+  
   if (movies.length === 0) {
     return <div>This list is empty!</div>;
   }
