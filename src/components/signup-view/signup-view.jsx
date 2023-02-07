@@ -5,6 +5,7 @@ export const SignupView = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
     
@@ -19,7 +20,7 @@ export const SignupView = () => {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
-        "Content-type": "apllication/json"
+        "Content-Type": "application/json"
       }
     }).then((response) => {
       if (response.ok) {
