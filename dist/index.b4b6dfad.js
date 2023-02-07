@@ -27294,8 +27294,8 @@ const MainView = ()=>{
     const storedToken = localStorage.getItem("token");
     const [movies, setMovies] = (0, _react.useState)([]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
-    const [user, setUser] = (0, _react.useState)(null);
-    const [token, setToken] = (0, _react.useState)(null);
+    const [user, setUser] = (0, _react.useState)(storedUser ? storedUser : null);
+    const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
     (0, _react.useEffect)(()=>{
         if (!token) return;
         fetch("https://myflix-app.herokuapp.com/movies", {
@@ -27430,7 +27430,7 @@ const MainView = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_s(MainView, "ld1mNqbzEgxPu9ZfASjBJ7ZrUMw=");
+_s(MainView, "BlfpIHShIpB8l6l5+I0r6zS3Vck=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -28447,7 +28447,6 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "LoginView", ()=>LoginView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
 const LoginView = ({ onLoggedIn  })=>{
     _s();
@@ -28456,8 +28455,8 @@ const LoginView = ({ onLoggedIn  })=>{
     const handleSubmit = (event)=>{
         event.preventDefault();
         const data = {
-            acces: username,
-            secret: password
+            Username: username,
+            Password: password
         };
         fetch("https://myflix-app.herokuapp.com/login", {
             method: "POST",
@@ -28573,7 +28572,7 @@ const SignupView = ()=>{
             method: "POST",
             body: JSON.stringify(data),
             headers: {
-                "Content-type": "apllication/json"
+                "Content-Type": "application/json"
             }
         }).then((response)=>{
             if (response.ok) {
@@ -28596,13 +28595,13 @@ const SignupView = ()=>{
                         minLength: "3"
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 38,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 36,
+                lineNumber: 37,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28615,13 +28614,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 48,
+                        lineNumber: 49,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 46,
+                lineNumber: 47,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28634,13 +28633,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 57,
+                        lineNumber: 58,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 55,
+                lineNumber: 56,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28653,13 +28652,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 66,
+                        lineNumber: 67,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 64,
+                lineNumber: 65,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -28667,13 +28666,13 @@ const SignupView = ()=>{
                 children: "Sign up"
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 73,
+                lineNumber: 74,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/signup-view/signup-view.jsx",
-        lineNumber: 35,
+        lineNumber: 36,
         columnNumber: 5
     }, undefined);
 };
