@@ -3,6 +3,9 @@ import { LoginView } from "../login-view/login-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { SignupView } from "../signup-view/signup-view";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -37,61 +40,65 @@ export const MainView = () => {
     });
   }, [token]);
 
-  if (!user) {
-    return ( 
-      <>
-    <LoginView
-     onLoggedIn={(user, token) => {
-      setUser(user);
-      setToken(token);
-    }} />
-    or
-    <SignupView />
-    </>
-    );
-  }
-  
-  if (selectedMovie) {
-
-    let similarDirector = movies.filter(checkDirector);
-
-    function checkDirector(movie) {
-      if (movie.Director.Name === selectedMovie.Director.Name && movie.id !== selectedMovie.id) {
-        return true;
-      };
-    };
-    return (
-      <>
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-      <hr />
-      <h3>Similar Director</h3>
-      {similarDirector.length > 0 && 
-      <div>
-      {similarDirector.map((movie) => (
-        <MovieCard
-        key = {movie.id}
-        movie = {movie}
-        onMovieClick = {(newSelectedMovie) => {
-          setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-      </div> 
-    }
-    {similarDirector.length === 0 && 
-    <div>No similar directors found.</div>
-    }
-      </>
-    );
-  }
-  
-  if (movies.length === 0) {
-    return <div>This list is empty!</div>;
-  }
   return (
-    <div>
-      <button onClick={() => {setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+    <Row className="justify-content-md-center">
+      {!user ? (
+        <>
+        <Col md={5} className="pt-5">
+          <LoginView
+          onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+          }} />
+          or
+          <SignupView />
+          </Col>
+        </>
+    ) : selectedMovie ? (
+  
+  
+  //if (selectedMovie) {
+
+    // let similarDirector = movies.filter(checkDirector);
+
+    // function checkDirector(movie) {
+    //   if (movie.Director.Name === selectedMovie.Director.Name && movie.id !== selectedMovie.id) {
+    //     return true;
+    //   };
+    // };(
+      <Col md={8}>
+      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
+      </Col>
+  //      <hr />
+  //     <h3>Similar Director</h3>
+  //     {similarDirector.length > 0 && 
+  //     <div>
+  //     {similarDirector.map((movie) => (
+  //       <MovieCard
+  //       key = {movie.id}
+  //       movie = {movie}
+  //       onMovieClick = {(newSelectedMovie) => {
+  //         setSelectedMovie(newSelectedMovie);
+  //         }}
+  //       />
+  //     ))}
+  //     </div> 
+  //   } 
+  //   {similarDirector.length === 0 && 
+  //   <div>No similar directors found.</div>
+  //   }
+  //     </>
+  //   );
+  // }
+  
+     ) : movies.length === 0? (
+      <div>This list is empty!</div>
+      ) : (
+    <>
+
+      <Button onClick={() => {setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
       {movies.map((movie) => (
+        <Col className="mb-4" key={movie.id} md={5}>
         <MovieCard 
           key={movie.id}
           movie={movie}
@@ -99,7 +106,10 @@ export const MainView = () => {
             setSelectedMovie(newSelectedMovie);
           }}
           />
+          </Col>
       ))}
-    </div>
+    </>
+  )}
+  </Row>
   );
 };
