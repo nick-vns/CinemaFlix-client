@@ -25,14 +25,17 @@ export const SignupView = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      if (response.ok) {
-        alert("Signup successful");
-        window.location.reload();
-      } else {
-        alert("Signup failed");
-      }
-    });
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Signup successful");
+          window.location.reload();
+        } else {
+          alert("Signup failed");
+          window.location.reload();
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
