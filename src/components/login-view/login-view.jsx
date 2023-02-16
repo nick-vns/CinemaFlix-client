@@ -6,6 +6,7 @@ import { Container, Card } from "react-bootstrap";
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -23,13 +24,12 @@ export const LoginView = ({ onLoggedIn }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Login response: ", data);
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);
           onLoggedIn(data.user, data.token);
         } else {
-          alert("No such user");
+          alert("No user found");
         }
       })
       .catch((e) => {
