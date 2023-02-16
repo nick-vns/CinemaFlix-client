@@ -1,8 +1,13 @@
-$primary: DarkSlateBlue;
+$primary: FireBrick;
+$dark: FireBrick;
+$info: Maroon;
 @import "~bootstrap/scss/bootstrap.scss";
 
 $color: stellblue;
 
+body {
+  background-color: Beige;
+}
 .my-flix {
   color: $color;
 }
