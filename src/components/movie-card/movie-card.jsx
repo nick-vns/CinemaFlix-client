@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Badge from "react-bootstrap/Badge";
 import { useState, useEffect } from "react";
 import { BsHeart } from "react-icons/bs";
+import "./movie-card.scss";
 
 export const MovieCard = ({ movie }) => {
   const storedToken = localStorage.getItem("token");
@@ -89,12 +90,16 @@ export const MovieCard = ({ movie }) => {
         </Badge>
         <Badge bg="none">
           {!isFavorite && (
-            <Button variant="outline-info" onClick={addFavoriteMovie}>
+            <Button
+              variant="light"
+              className="button"
+              onClick={addFavoriteMovie}
+            >
               <BsHeart />
             </Button>
           )}
           {isFavorite && (
-            <Button onClick={deleteFavoriteMovie} variant="info">
+            <Button variant="info" onClick={deleteFavoriteMovie}>
               <BsHeart />
             </Button>
           )}
