@@ -1,7 +1,7 @@
-import { Container, Form, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const NavigationBar = ({ user, onLoggedOut }) => {
+export const NavigationBar = ({ user, movies, onLoggedOut }) => {
   return (
     <Navbar collapseOnSelect sticky="top" expand="md" bg="dark" variant="dark">
       <Container>
@@ -33,14 +33,6 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
               </>
             )}
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>

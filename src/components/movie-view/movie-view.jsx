@@ -7,14 +7,18 @@ import Row from "react-bootstrap/Row";
 import { MovieCard } from "../movie-card/movie-card";
 import { useEffect } from "react";
 
-export const MovieView = ({ movies, findSimilarMovies }) => {
+export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
+  const movie = movies.find((m) => m.id === movieId);
+
+  const findSimilarMovies = (Director, id) =>
+    movies.filter(
+      (movie) => movie.Director.Name === Director && movie.id !== id
+    );
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const movie = movies.find((m) => m.id === movieId);
 
   return (
     <div>

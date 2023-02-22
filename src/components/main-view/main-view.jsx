@@ -7,20 +7,30 @@ import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-
   const [movies, setMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [searchBar, setSearchBar] = useState("");
+  const [searchMovie, setSearchMovie] = useState([]);
 
-  const findSimilarMovies = (Director, id) =>
-    movies.filter(
-      (movie) => movie.Director.Name === Director && movie.id !== id
-    );
+  useEffect(() => {
+    if (searchBar && searchBar.length > 0) {
+      const searchItems = movies.filter(
+        (m) =>
+          m.Title.toLowerCase().includes(searchBar.toLowerCase().trim()) ||
+          m.Director.Name.toLowerCase().includes(searchBar.toLowerCase().trim())
+      );
+      setSearchMovie(searchItems);
+    } else {
+      setSearchMovie([]);
+    }
+  }, [searchBar]);
 
   useEffect(() => {
     if (!token) {
@@ -104,10 +114,7 @@ export const MainView = () => {
                   <Col>Loading ...</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView
-                      movies={movies}
-                      findSimilarMovies={findSimilarMovies}
-                    />
+                    <MovieView movies={movies} />
                   </Col>
                 )}
               </>
@@ -144,16 +151,36 @@ export const MainView = () => {
             path="/"
             element={
               <>
+                <Row className="justify-content-end">
+                  <Col md={3}>
+                    <Form>
+                      <Form.Control
+                        type="text"
+                        placeholder="Search"
+                        value={searchBar}
+                        onChange={(e) => setSearchBar(e.target.value)}
+                      />
+                    </Form>
+                  </Col>
+                </Row>
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
                   <Col>Loading ...</Col>
                 ) : (
-                  movies.map((movie) => (
-                    <Col className="m-4" key={movie.id} md={5} lg={4}>
-                      <MovieCard movie={movie} />
-                    </Col>
-                  ))
+                  <>
+                    {searchMovie && searchMovie.length > 0
+                      ? searchMovie.map((movie) => (
+                          <Col className="mb-4" key={movie.id} md={5}>
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))
+                      : movies.map((movie) => (
+                          <Col className="m-4" key={movie.id} md={5} lg={4}>
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))}
+                  </>
                 )}
               </>
             }

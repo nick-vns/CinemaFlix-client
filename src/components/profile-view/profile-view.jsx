@@ -20,7 +20,7 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
   const [username, updateUsername] = useState(user.Username);
   const [password, updatePassword] = useState("");
   const [email, updateEmail] = useState(user.Email);
-  const [birthday, updateBirthday] = useState("");
+  const [birthday, updateBirthday] = useState();
 
   const moviesData = movies.filter((m) => favMovies.includes(m.id));
 
@@ -165,7 +165,6 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
                       type="date"
                       value={birthday}
                       onChange={(event) => updateBirthday(event.target.value)}
-                      required
                     />
                   </Form.Group>
                   <Stack gap={2} className="col-md-5 mx-auto">
