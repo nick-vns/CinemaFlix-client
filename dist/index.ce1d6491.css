@@ -12013,6 +12013,10 @@ body {
   color: stellblue;
 }
 
+img {
+  width: 100%;
+}
+
 .button {
   transition: all .7s;
 }
@@ -12020,10 +12024,6 @@ body {
 .button:hover {
   color: beige;
   background-color: maroon !important;
-}
-
-img {
-  width: 100%;
 }
 
 /*# sourceMappingURL=index.ce1d6491.css.map */
