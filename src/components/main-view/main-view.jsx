@@ -1,79 +1,165 @@
 import { useEffect, useState } from "react";
+import { LoginView } from "../login-view/login-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { SignupView } from "../signup-view/signup-view";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
-  const [movies, setMovies] = useState ([]);
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
 
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
+
+  const findSimilarMovies = (Director, id) =>
+    movies.filter(
+      (movie) => movie.Director.Name === Director && movie.id !== id
+    );
 
   useEffect(() => {
-    fetch("https://myflix-app.herokuapp.com/movies")
-    .then((response) => response.json())
-    .then((data) => {
-      const moviesFromApi = data.map((doc) => {
-        return {
-          id: doc._id,
-          Title: doc.Title,
-          Description: doc.Description,
-          Director: doc.Director,
-          Genre: doc.Genre,
-          Release: doc.Release,
-          ImagePath: doc.ImagePath
-        };
+    if (!token) {
+      return;
+    }
+
+    fetch("https://myflix-app.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((doc) => {
+          return {
+            id: doc._id,
+            Title: doc.Title,
+            Description: doc.Description,
+            Director: doc.Director,
+            Genre: doc.Genre,
+            Release: doc.Release,
+            ImagePath: doc.ImagePath,
+          };
+        });
+        setMovies(moviesFromApi);
       });
-      setMovies(moviesFromApi);
-    });
-  }, []);
-  
-  if (selectedMovie) {
+  }, [token]);
 
-    let similarDirector = movies.filter(checkDirector);
-
-    function checkDirector(movie) {
-      if (movie.Director.Name === selectedMovie.Director.Name && movie.id !== selectedMovie.id) {
-        return true;
-      };
-    };
-    return (
-      <>
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-      <hr />
-      <h3>Similar Director</h3>
-      {similarDirector.length > 0 && 
-      <div>
-      {similarDirector.map((movie) => (
-        <MovieCard
-        key = {movie.id}
-        movie = {movie}
-        onMovieClick = {(newSelectedMovie) => {
-          setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-      </div> 
-    }
-    {similarDirector.length === 0 && 
-    <div>No similar directors found.</div>
-    }
-      </>
-    );
-  }
-  
-  if (movies.length === 0) {
-    return <div>This list is empty!</div>;
-  }
   return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard 
-          key={movie.id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
+    <BrowserRouter>
+      <NavigationBar
+        user={user}
+        token={token}
+        onLoggedOut={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
+          <Navigate to="/login" />;
+        }}
+      />
+      <Row className="justify-content-md-center">
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <SignupView />
+                  </Col>
+                )}
+              </>
+            }
           />
-      ))}
-    </div>
+          <Route
+            path="/login"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5} className="pt-5">
+                    <LoginView
+                      onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                      }}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/movies/:movieId"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>Loading ...</Col>
+                ) : (
+                  <Col md={8}>
+                    <MovieView
+                      movies={movies}
+                      findSimilarMovies={findSimilarMovies}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="login" />
+                ) : (
+                  <Col>
+                    <ProfileView
+                      user={user}
+                      movies={movies}
+                      favMovies={storedUser.FavoriteMovies}
+                      onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                      }}
+                      onLoggedOut={() => {
+                        setUser(null);
+                        setToken(null);
+                        localStorage.clear();
+                      }}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>Loading ...</Col>
+                ) : (
+                  movies.map((movie) => (
+                    <Col className="m-4" key={movie.id} md={5} lg={4}>
+                      <MovieCard movie={movie} />
+                    </Col>
+                  ))
+                )}
+              </>
+            }
+          />
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };
