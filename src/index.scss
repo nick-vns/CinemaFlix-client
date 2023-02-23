@@ -1,5 +1,14 @@
+$primary: FireBrick;
+$dark: FireBrick;
+$info: Maroon;
+$light: rgba(245, 245, 220, 0.802);
+@import "~bootstrap/scss/bootstrap.scss";
+
 $color: stellblue;
 
+body {
+  background-color: Beige;
+}
 .my-flix {
   color: $color;
 }
