@@ -76,7 +76,7 @@ export const MovieCard = ({ movie }) => {
   return (
     <Card
       style={{ width: "20rem" }}
-      className="h-65 m-3 rounded-2 text-center bg-dark text-light p-2"
+      className="h-65 mb-3 rounded-2 text-center bg-dark text-light p-2 m-auto"
     >
       <Card.Img
         variant="top"

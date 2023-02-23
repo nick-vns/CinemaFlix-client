@@ -69,7 +69,7 @@ export const MainView = () => {
           <Navigate to="/login" />;
         }}
       />
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-center">
         <Routes>
           <Route
             path="/signup"
@@ -125,7 +125,7 @@ export const MainView = () => {
             element={
               <>
                 {!user ? (
-                  <Navigate to="login" />
+                  <Navigate to="/login" replace />
                 ) : (
                   <Col>
                     <ProfileView
@@ -151,9 +151,9 @@ export const MainView = () => {
             path="/"
             element={
               <>
-                <Row className="justify-content-end">
-                  <Col md={3}>
-                    <Form>
+                <Row className="justify-content-center m-3">
+                  <Col xs={10} sm={6} md={6} lg={5} className="m-auto">
+                    <Form className="d-flex">
                       <Form.Control
                         type="text"
                         placeholder="Search"
@@ -171,12 +171,12 @@ export const MainView = () => {
                   <>
                     {searchMovie && searchMovie.length > 0
                       ? searchMovie.map((movie) => (
-                          <Col className="mb-4" key={movie.id} md={5}>
+                          <Col className="m-auto" md={5} key={movie.id}>
                             <MovieCard movie={movie} />
                           </Col>
                         ))
                       : movies.map((movie) => (
-                          <Col className="m-4" key={movie.id} md={5} lg={4}>
+                          <Col className="m-4" key={movie.id} md={5} lg={5}>
                             <MovieCard movie={movie} />
                           </Col>
                         ))}

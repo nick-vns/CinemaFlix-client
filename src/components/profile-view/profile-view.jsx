@@ -85,7 +85,7 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
         <Row className="justify-content-center p-4">
           <Col sm={8} lg={5}>
             <Card
-              style={{ minWidth: "20rem", maxWidth: "40rem" }}
+              style={{ minWidth: "15rem", maxWidth: "40rem" }}
               className="shadow-lg p-3 rounded-4 text-center"
               text="secondary"
             >
