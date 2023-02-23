@@ -14,7 +14,6 @@ import moment from "moment";
 
 export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
   const storedToken = localStorage.getItem("token");
-  const [token] = useState(storedToken ? storedToken : null);
 
   const [updateUser, setUpdateUser] = useState(false);
   const [username, updateUsername] = useState(user.Username);
@@ -134,7 +133,7 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
                       placeholder="Username"
                       value={username}
                       onChange={(event) => updateUsername(event.target.value)}
-                      minLength="3"
+                      minLength="6"
                       maxLength="10"
                       required
                     />

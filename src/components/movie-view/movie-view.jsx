@@ -49,8 +49,9 @@ export const MovieView = ({ movies }) => {
         <Button className="primary">Back</Button>
       </Link>
       <hr />
-      <Row className="justify-content-center py-5">
+      <Row className="justify-content-center py-5 m-1">
         <h2 className="text-center mb-5">Similar Directors</h2>
+
         {findSimilarMovies(movie.Director.Name, movie.id).map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}

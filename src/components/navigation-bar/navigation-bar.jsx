@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const NavigationBar = ({ user, movies, onLoggedOut }) => {
+export const NavigationBar = ({ user, onLoggedOut }) => {
   return (
     <Navbar collapseOnSelect sticky="top" expand="md" bg="dark" variant="dark">
       <Container>
@@ -32,9 +32,13 @@ export const NavigationBar = ({ user, movies, onLoggedOut }) => {
               </>
             )}
           </Nav>
-          <Nav>
-            <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
-          </Nav>
+          {user && (
+            <>
+              <Nav>
+                <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
+              </Nav>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
