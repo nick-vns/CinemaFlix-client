@@ -39,33 +39,37 @@ export const LoginView = ({ onLoggedIn }) => {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username:</Form.Label>
-          <Form.Control
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            placeholder="Enter username"
-            minLength="3"
-          />
-        </Form.Group>
+      <Card className="bg-light bg-opacity-75 rounded-4" border="dark">
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username:</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Enter username"
+                minLength="3"
+              />
+            </Form.Group>
 
-        <Form.Group controlId="fromPassword">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Enter password"
-          />
-        </Form.Group>
-        <Button className="mt-2" variant="primary" type="submit">
-          Log in
-        </Button>
-      </Form>
+            <Form.Group controlId="fromPassword">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter password"
+              />
+            </Form.Group>
+            <Button className="mt-2" variant="primary" type="submit">
+              Log in
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };
