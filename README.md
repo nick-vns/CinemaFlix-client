@@ -7,7 +7,9 @@ Build a client-side for an app myFlix using React, myFlix based on existing serv
 ## Links
 
 Documentation for an [API](https://myflix-app.herokuapp.com/documentation.html)
+
 GitHub page with [Code](https://github.com/nick-vns/movie_api) for an API
+
 See my project in [Live Demo](cinemaflix-movies.netlify.app)  
 
 ## Key Features 
