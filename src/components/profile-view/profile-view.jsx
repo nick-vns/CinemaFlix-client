@@ -85,7 +85,7 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
           <Col sm={8} lg={5}>
             <Card
               style={{ minWidth: "15rem", maxWidth: "40rem" }}
-              className="shadow-lg p-3 rounded-4 text-center"
+              className="shadow-lg p-3 rounded-4 text-center bg-light "
               text="secondary"
             >
               <Card.Body>
@@ -119,7 +119,7 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
           <Col sm={6}>
             <Card
               style={{ minWidth: "20rem", maxWidth: "40rem" }}
-              className="shadow-lg p-3 rounded-4 text-center"
+              className="shadow-lg p-3 rounded-4 text-center bg-light bg-opacity-75"
               text="secondary"
             >
               <Card.Body>
@@ -187,12 +187,22 @@ export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
         </Row>
       )}
       <Row className="justify-content-center py-5">
-        <h2 className="text-center mb-5">Favorite Movies</h2>
-        {moviesData.length ? (
-          moviesData.map((movie) => <MovieCard movie={movie} key={movie.id} />)
-        ) : (
-          <p>No favorite movies</p>
-        )}
+        <Card
+          className="bg-dark rounded-5 shadow"
+          border="light"
+          style={{ width: "18rem", height: "5rem" }}
+        >
+          <Card.Body>
+            <h3 className="text-center mb-5" style={{ color: "beige" }}>
+              Favorite Movies
+            </h3>
+          </Card.Body>
+        </Card>
+      </Row>
+      <Row>
+        {moviesData.map((movie) => (
+          <MovieCard movie={movie} key={movie.id} />
+        ))}
       </Row>
     </Container>
   );
