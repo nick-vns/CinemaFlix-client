@@ -92,14 +92,18 @@ export const MovieCard = ({ movie }) => {
           {!isFavorite && (
             <Button
               variant="light"
-              className="button"
+              className="button-like"
               onClick={addFavoriteMovie}
             >
               <BsHeart />
             </Button>
           )}
           {isFavorite && (
-            <Button variant="info" onClick={deleteFavoriteMovie}>
+            <Button
+              variant="info"
+              className="button-dislike"
+              onClick={deleteFavoriteMovie}
+            >
               <BsHeart />
             </Button>
           )}

@@ -3,10 +3,11 @@ $dark: FireBrick;
 $info: Maroon;
 $light: rgba(245, 245, 220, 0.802);
 @import "~bootstrap/scss/bootstrap.scss";
-
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap");
 $color: stellblue;
 
 body {
+  font-family: "Ubuntu", sans-serif;
   background-image: linear-gradient(
       rgba(255, 239, 213, 0.506),
       rgba(255, 239, 213, 0.435)

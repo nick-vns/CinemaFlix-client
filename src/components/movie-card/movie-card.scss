@@ -1,7 +1,16 @@
-.button {
-  transition: 0.7s;
+.button-like {
+  transition: 0.7s !important;
 }
-.button:hover {
+.button-like:hover {
   background-color: maroon !important;
-  color: beige;
+  color: beige !important;
+}
+
+.button-dislike {
+  transition: 0.7s !important;
+}
+.button-dislike:hover {
+  background-color: beige !important ;
+  color: black !important;
+  opacity: 0.9;
 }
