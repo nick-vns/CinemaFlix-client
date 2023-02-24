@@ -4,10 +4,11 @@
 
 Build a client-side for an app myFlix using React, myFlix based on existing server-side code REST API and database which provides with routing between different pages as well as responsive actions as create update delete account. 
 
-## Documentation for an [API](https://myflix-app.herokuapp.com/documentation.html)
-## [GitHub page with Code](https://github.com/nick-vns/movie_api) for an API
+## Links
 
-## See my project in [Live Demo](cinemaflix-movies.netlify.app)  
+Documentation for an [API](https://myflix-app.herokuapp.com/documentation.html)
+GitHub page with [Code](https://github.com/nick-vns/movie_api) for an API
+See my project in [Live Demo](cinemaflix-movies.netlify.app)  
 
 ## Key Features 
 + Rounting between pages
