@@ -7,7 +7,11 @@ $light: rgba(245, 245, 220, 0.802);
 $color: stellblue;
 
 body {
-  background-color: Beige;
+  background-image: linear-gradient(
+      rgba(255, 239, 213, 0.506),
+      rgba(255, 239, 213, 0.435)
+    ),
+    url(movies.jpeg);
 }
 .my-flix {
   color: $color;
