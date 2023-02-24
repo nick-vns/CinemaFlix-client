@@ -1,29 +1,37 @@
-# myFlix-client
+# CinemaFlix-client
 
 ## Description 
 
 Build a client-side for an app myFlix using React, myFlix based on existing server-side code REST API and database which provides with routing between different pages as well as responsive actions as create update delete account. 
 
-## Key Features 
+## Documentation for an [API](https://myflix-app.herokuapp.com/documentation.html)
+## [GitHub page with Code](https://github.com/nick-vns/movie_api) for an API
 
-+ Returns ALL movies to the user (each movie item with an image, title, and description)
-+ Filtering the list of movies with a “search” feature
-+ Ability to select a movie for more details
-+ Ability to log out
-+ Ability to navigate to Profile view
-### Single Movie view
-+ Returns data (description, genre, director, image) about a single movie to the user
-+ Allows users to add a movie to their list of favorites Login view
-+ Allows users to log in with a username and password Signup view
-+ Allows new users to register (username, password, email, date of birth) Profile view
-### Displays user registration details
-+ Allows users to update their info (username, password, email, date of birth)
-+ Displays favorite movies
-+ Allows users to remove a movie from their list of favorites
-+ Allows existing users to deregister
+## See my project in [Live Demo](cinemaflix-movies.netlify.app)  
+
+## Key Features 
++ Rounting between pages
++ Accessibility to user's account data including interact with and change it
++ Accessibility to movie's data to see details and find common movies
++ To see all movies including search option to find one
+
 
 ## Techstack
 + React
++ React Bootstrap
 + HTML
 + JS SCSS
 + JS transpiled by Parcel
+
+
+## Dependencies 
++ "bootstrap": 5.2.3
++ "date-fns": 2.29.3
++ "moment": 2.29.4
++ "prop-types": 15.8.1
++ "react": 18.2.0
++ "react-bootstrap": 2.7.0
++ "react-dom": 18.2.0
++ "react-icons": 4.7.1
++ "react-router": 6.8.1
++ "react-router-dom": 6.8.1
