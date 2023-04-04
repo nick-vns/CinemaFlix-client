@@ -40,4 +40,6 @@ See my project in [Live Demo](https://cinemaflix-movies.netlify.app/login)
     "react-router-dom": "^6.8.1"
     
 ## Screenshots
-![signup page](screenshots/signup)
+![signup page](screenshots/signup.png)
+![homepage](screenshots/homepage.png)
+![account](screenshots/account.png)
