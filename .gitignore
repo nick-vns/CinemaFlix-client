@@ -6,3 +6,6 @@ node_modules
 .eslintrc.json
 .eslintrc.json
 .editorconfig
+screenshots/account.png
+screenshots/homepage.png
+screenshots/signup.png
