@@ -28,13 +28,13 @@ See my project in [Live Demo](https://cinemaflix-movies.netlify.app/login)
 
 
 ## Dependencies 
-+ "bootstrap": 5.2.3
-+ "date-fns": 2.29.3
-+ "moment": 2.29.4
-+ "prop-types": 15.8.1
-+ "react": 18.2.0
-+ "react-bootstrap": 2.7.0
-+ "react-dom": 18.2.0
-+ "react-icons": 4.7.1
-+ "react-router": 6.8.1
-+ "react-router-dom": 6.8.1
+ "bootstrap": 5.2.3
+ "date-fns": 2.29.3
+ "moment": 2.29.4
+ "prop-types": 15.8.1
+ "react": 18.2.0
+ "react-bootstrap": 2.7.0
+ "react-dom": 18.2.0
+ "react-icons": 4.7.1
+ "react-router": 6.8.1
+ "react-router-dom": 6.8.1
