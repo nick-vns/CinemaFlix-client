@@ -38,3 +38,6 @@ See my project in [Live Demo](https://cinemaflix-movies.netlify.app/login)
     "react-icons": "^4.7.1",
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1"
+    
+## Screenshots
+![signup page](screenshots/signup)
