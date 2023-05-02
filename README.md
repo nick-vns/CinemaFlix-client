@@ -2,7 +2,7 @@
 
 ## Description 
 
-Build a client-side for an app myFlix using React, CinemaFlix based on existing server-side code REST API and database which provides with routing between different pages as well as responsive actions as create update delete account. 
+Build a client-side for an app CinemaFlix using React, CinemaFlix based on existing server-side code REST API and database which provides with routing between different pages as well as responsive actions as create update delete account. 
 
 ## Links
 
