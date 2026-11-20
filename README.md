@@ -1,6 +1,6 @@
 # CinemaFlix React
 
-CinemaFlix is a React movie discovery app with search, genre filters, movie details, account management, and saved favorites. It uses the sibling Express/MongoDB API and the existing catalog metadata and poster URLs. See the [backend setup](../CinemaFlix_api/README.md) and [deployment steps](../CinemaFlix_api/DEPLOYMENT.md).
+CinemaFlix is a React movie discovery app with search, genre filters, movie details, account management, and saved favorites. It uses the sibling Express/MongoDB API and the existing catalog metadata and poster URLs.
 
 ## Run and test locally
 
