@@ -1,209 +1,96 @@
-import { useState } from "react";
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  Card,
-  ListGroup,
-  Container,
-} from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card";
-import Stack from "react-bootstrap/Stack";
-import moment from "moment";
+import React, { useState } from "react";
 
-export const ProfileView = ({ user, movies, favMovies, onLoggedIn }) => {
-  const storedToken = localStorage.getItem("token");
-
-  const [updateUser, setUpdateUser] = useState(false);
-  const [username, updateUsername] = useState(user.Username);
-  const [password, updatePassword] = useState("");
-  const [email, updateEmail] = useState(user.Email);
-  const [birthday, updateBirthday] = useState();
-
-  const moviesData = movies.filter((m) => favMovies.includes(m.id));
-
-  const handleUpdate = (e) => {
-    e.preventDefault();
-
-    const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday,
-    };
-
-    fetch(`https://myflix-app.herokuapp.com/users/${user.Username}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem("user", JSON.stringify(data));
-        onLoggedIn(data.user);
-        alert("Account has been updated.");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Something went wrong.");
-      });
-  };
-
-  const handleDeregister = (e) => {
-    e.preventDefault();
-
-    fetch(`https://myflix-app.herokuapp.com/users/${user.Username}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert(`${user.Username} successfully deleted.`);
-          localStorage.clear();
-          window.location.reload();
-        } else {
-          alert("Something went wrong.");
-        }
-      })
-      .catch((e) => console.log(e));
-  };
-
-  let userBirthDate = moment(user.Birthday).format("YYYY/MM/DD");
-
+export function AccountFields({ profile, login = false }) {
   return (
-    <Container>
-      {!updateUser ? (
-        <Row className="justify-content-center p-4">
-          <Col sm={8} lg={5}>
-            <Card
-              style={{ minWidth: "15rem", maxWidth: "40rem" }}
-              className="shadow-lg p-3 rounded-4 text-center bg-light "
-              text="secondary"
-            >
-              <Card.Body>
-                <Card.Title>My Account</Card.Title>
-                <Card.Text></Card.Text>
-              </Card.Body>
-              <ListGroup className="text-start">
-                <ListGroup.Item className="text-bg-dark">
-                  Username: {user.Username}
-                </ListGroup.Item>
-                <ListGroup.Item className="text-bg-dark">
-                  Password: ****
-                </ListGroup.Item>
-                <ListGroup.Item className="text-bg-dark">
-                  Email: {user.Email}
-                </ListGroup.Item>
-                <ListGroup.Item className="text-bg-dark">
-                  Birthday: {userBirthDate}
-                </ListGroup.Item>
-              </ListGroup>
-              <Card.Body>
-                <Button variant="primary" onClick={() => setUpdateUser(true)}>
-                  EDIT
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      ) : (
-        <Row className="justify-content-center p-4">
-          <Col sm={6}>
-            <Card
-              style={{ minWidth: "20rem", maxWidth: "40rem" }}
-              className="shadow-lg p-3 rounded-4 text-center bg-light bg-opacity-75"
-              text="secondary"
-            >
-              <Card.Body>
-                <Card.Title>Update Account</Card.Title>
-                <Card.Text></Card.Text>
-                <Form onSubmit={handleUpdate} className="w-100 text-start">
-                  <Form.Group controlId="formUsername" className="mb-4">
-                    <Form.Label>Username:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Username"
-                      value={username}
-                      onChange={(event) => updateUsername(event.target.value)}
-                      minLength="6"
-                      maxLength="10"
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formPassword" className="mb-4">
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(event) => updatePassword(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formEmail" className="mb-4">
-                    <Form.Label>Email:</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(event) => updateEmail(event.target.value)}
-                    />
-                    <Form.Text className="text-muted"></Form.Text>
-                  </Form.Group>
-                  <Form.Group controlId="formBirthday" className="mb-4">
-                    <Form.Label>Birthday:</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={birthday}
-                      onChange={(event) => updateBirthday(event.target.value)}
-                    />
-                  </Form.Group>
-                  <Stack gap={2} className="col-md-5 mx-auto">
-                    <Button variant="primary" type="submit">
-                      SAVE
-                    </Button>
-                    <Button variant="primary" onClick={handleDeregister}>
-                      DELETE
-                    </Button>
-                    <Button
-                      variant="primary"
-                      onClick={() => setUpdateUser(false)}
-                    >
-                      CANCEL
-                    </Button>
-                  </Stack>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      )}
-      <Row className="justify-content-center py-5">
-        <Card
-          className="bg-dark rounded-5 shadow"
-          border="light"
-          style={{ width: "18rem", height: "5rem" }}
-        >
-          <Card.Body>
-            <h3 className="text-center mb-5" style={{ color: "beige" }}>
-              Favorite Movies
-            </h3>
-          </Card.Body>
-        </Card>
-      </Row>
-      <Row>
-        {moviesData.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} />
-        ))}
-      </Row>
-    </Container>
+    <>
+      <label>Username<input name="Username" required maxLength={login ? 256 : Math.max(32, profile?.Username.length ?? 0)}
+        pattern={login || profile ? undefined : "[A-Za-z0-9_.\\-]{3,32}"} autoComplete="username"
+        defaultValue={profile?.Username} aria-describedby={!login && !profile ? "username-rules" : undefined} />
+        {!login && !profile && <span className="field-caption" id="username-rules" aria-hidden="true">
+          3–32 letters, numbers, dots, underscores or hyphens.
+        </span>}
+      </label>
+      {!login && <>
+        <label>Email<input name="Email" required type="email" maxLength={254}
+          autoComplete="email" defaultValue={profile?.Email} /></label>
+        <label>Birthday (optional)<input name="Birthday" type="date" autoComplete="bday"
+          max={new Date().toISOString().slice(0, 10)} defaultValue={profile?.Birthday?.slice(0, 10)} /></label>
+      </>}
+      <label>{profile ? "New password (optional)" : "Password"}
+        <input name="Password" type="password" required={!profile} minLength={login ? undefined : 8}
+          autoComplete={login ? "current-password" : "new-password"}
+          aria-describedby={login ? undefined : "password-rules"} />
+        {!login && <span className="field-caption" id="password-rules" aria-hidden="true">Use at least 8 characters.</span>}
+      </label>
+    </>
   );
-};
+}
+
+export function accountData(form, keepPassword = false) {
+  const data = Object.fromEntries(new FormData(form));
+  if (!keepPassword && !data.Password) delete data.Password;
+  return data;
+}
+
+export function ProfileView({ profile, onUpdate, onDelete }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState("");
+  async function submit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = accountData(form);
+    // Keep unchanged legacy values out of the update request.
+    for (const key of ["Username", "Email", "Birthday"]) {
+      const current = key === "Birthday" ? profile.Birthday?.slice(0, 10) || "" : profile[key];
+      if (data[key] === current) delete data[key];
+    }
+    setFeedback("");
+    setError("");
+    if (!Object.keys(data).length) {
+      setFeedback("No changes to save.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await onUpdate(data);
+      form.elements.Password.value = "";
+      setFeedback("Your changes were saved.");
+    } catch (failure) {
+      setError(failure.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function remove() {
+    if (!window.confirm("Permanently delete your CinemaFlix account and saved favorites?")) return;
+    setBusy(true);
+    setError("");
+    setFeedback("");
+    try {
+      await onDelete();
+    } catch (failure) {
+      setError(failure.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <section className="panel">
+      <h1>Your profile</h1>
+      <form onSubmit={submit}>
+        <fieldset disabled={busy}>
+          <AccountFields profile={profile} />
+          <button className="button primary">Save changes</button>
+        </fieldset>
+      </form>
+      {error && <p className="error" role="alert">{error}</p>}
+      {feedback && <p className="success" role="status">{feedback}</p>}
+      <div className="delete-section">
+        <h2>Delete account</h2>
+        <p>This permanently removes your profile and saved favorites.</p>
+        <button type="button" className="button danger" disabled={busy} onClick={remove}>Delete account</button>
+      </div>
+    </section>
+  );
+}

@@ -1,75 +1,35 @@
-import { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Container, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { AccountFields, accountData } from "../profile-view/profile-view.jsx";
 
-export const LoginView = ({ onLoggedIn }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (event) => {
+export function LoginView({ onSubmit, Link, register = false }) {
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  async function submit(event) {
     event.preventDefault();
-
-    const data = {
-      Username: username,
-      Password: password,
-    };
-
-    fetch("https://myflix-app.herokuapp.com/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token);
-          onLoggedIn(data.user, data.token);
-        } else {
-          alert("No user found");
-        }
-      })
-      .catch((e) => {
-        alert("Something went wrong");
-      });
-  };
-
+    setError("");
+    setBusy(true);
+    try {
+      await onSubmit(accountData(event.currentTarget, true));
+    } catch (failure) {
+      setError(failure.message);
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
-    <Container>
-      <Card className="bg-light bg-opacity-75 rounded-4" border="dark">
-        <Card.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username:</Form.Label>
-              <Form.Control
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                placeholder="Enter username"
-                minLength="3"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="fromPassword">
-              <Form.Label>Password:</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Enter password"
-              />
-            </Form.Group>
-            <Button className="mt-2" variant="primary" type="submit">
-              Log in
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+    <section className="panel auth-panel">
+      <h1>{register ? "Create your account" : "Sign in"}</h1>
+      <p className="panel-intro">{register ? "Start saving your favorite movies." : "Sign in to see your saved movies."}</p>
+      <form onSubmit={submit}>
+        <fieldset disabled={busy}>
+          <AccountFields login={!register} />
+          <button className="button primary">{busy ? "Please wait…" : register ? "Create account" : "Sign in"}</button>
+        </fieldset>
+      </form>
+      {error && <p className="error" role="alert">{error}</p>}
+      <p className="panel-footer">{register ? "Already have an account? " : "New to CinemaFlix? "}
+        <Link href={register ? "/login" : "/register"}>{register ? "Sign in" : "Create an account"}</Link>
+      </p>
+    </section>
   );
-};
+}

@@ -1,132 +1,57 @@
-import PropTypes from "prop-types";
-import { Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Badge from "react-bootstrap/Badge";
-import { useState, useEffect } from "react";
-import { BsHeart } from "react-icons/bs";
-import "./movie-card.scss";
+import React, { useEffect, useState } from "react";
+import { posterUrl } from "../../api.mjs";
+import { movieGenres, movieRating, releaseYear } from "../../catalog.mjs";
 
-export const MovieCard = ({ movie }) => {
-  const storedToken = localStorage.getItem("token");
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const [isFavorite, setFavorite] = useState(false);
-  const [favoriteMovies, setFavoriteMovies] = useState(
-    storedUser.FavoriteMovies ? storedUser.FavoriteMovies : []
-  );
-
-  const addFavoriteMovie = () => {
-    fetch(
-      `https://myflix-app.herokuapp.com/users/${storedUser.Username}/movies/${movie.id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          setFavoriteMovies(data.FavoriteMovies);
-          localStorage.setItem("user", JSON.stringify(data));
-          window.location.reload();
-        } else {
-          alert("Something went wrong, try again.");
-        }
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const deleteFavoriteMovie = () => {
-    fetch(
-      `https://myflix-app.herokuapp.com/users/${storedUser.Username}/movies/${movie.id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          setFavoriteMovies(favoriteMovies.filter((fM) => fM !== movie.id));
-          localStorage.setItem("user", JSON.stringify(data));
-          window.location.reload();
-        } else {
-          alert("Something went wrong, try again.");
-        }
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const toggleFavorite = () => {
-    const favoriteMoviesVal = Object.values(favoriteMovies);
-    favoriteMoviesVal.some((fM) => fM === movie.id)
-      ? setFavorite(true)
-      : setFavoriteMovies(false);
-  };
+export function Poster({ movie, eager = false, backdrop = false, onUnavailable }) {
+  const [failed, setFailed] = useState([]);
+  const wide = backdrop ? posterUrl(movie.BackdropPath) : undefined;
+  const vertical = posterUrl(movie.ImagePath);
+  const url = [wide, vertical].find((image) => image && !failed.includes(image));
+  const unavailable = !url;
 
   useEffect(() => {
-    toggleFavorite();
-  }, []);
+    if (unavailable) onUnavailable?.(movie._id);
+  }, [unavailable, movie._id, onUnavailable]);
 
   return (
-    <Card
-      style={{ width: "20rem" }}
-      className="h-65 mb-3 rounded-2 text-center bg-dark text-light p-2 m-auto"
-    >
-      <Card.Img
-        variant="top"
-        src={movie.ImagePath}
-        height={420}
-        style={{ objectFit: "cover" }}
-      />
-      <Card.ImgOverlay className="d-flex align-items-start justify-content-between h-75 m-2">
-        <Badge bg="info" text="light" style={{ padding: "13px" }}>
-          {movie.Release}
-        </Badge>
-        <Badge bg="none">
-          {!isFavorite && (
-            <Button
-              variant="light"
-              className="button-like"
-              onClick={addFavoriteMovie}
-            >
-              <BsHeart />
-            </Button>
-          )}
-          {isFavorite && (
-            <Button
-              variant="info"
-              className="button-dislike"
-              onClick={deleteFavoriteMovie}
-            >
-              <BsHeart />
-            </Button>
-          )}
-        </Badge>
-      </Card.ImgOverlay>
-      <Card.Body>
-        <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>Director: {movie.Director.Name}</Card.Text>
-        <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
-        <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-          <Button variant="info">Details</Button>
-        </Link>
-      </Card.Body>
-    </Card>
+    <div className={wide ? "poster poster-wide" : "poster"}>
+      {url ? (
+        <img className={wide && url !== wide ? "artwork-fallback" : undefined} src={url} alt=""
+          loading={eager ? "eager" : "lazy"} decoding="async"
+          onError={() => setFailed((images) => [...images, url])} />
+      ) : <span className="poster-placeholder" aria-hidden="true">{movie.Title}</span>}
+    </div>
   );
-};
+}
 
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string,
-    Description: PropTypes.string,
-    Director: PropTypes.string,
-    Release: PropTypes.string,
-    ImagePath: PropTypes.string,
-  }).isRequired,
-};
+export function FavoriteButton({ movie, saved, busy, onFavorite }) {
+  return (
+    <button type="button" className={saved ? "button favorite saved" : "button favorite"}
+      aria-pressed={saved} disabled={busy} onClick={() => onFavorite(movie._id, saved)}
+      aria-label={(saved ? "Remove from favorites: " : "Add to favorites: ") + movie.Title}>
+      <span className="favorite-icon" aria-hidden="true">{saved ? "♥" : "♡"}</span>
+      {saved ? "Saved" : "Save"}
+    </button>
+  );
+}
+
+export function MovieCard({ movie, Link, ...favorite }) {
+  const year = releaseYear(movie);
+  const genre = movieGenres(movie)[0];
+  const rating = movieRating(movie);
+  return (
+    <article className="movie-card">
+      <Poster movie={movie} />
+      <div className="card-content">
+        <h3 className="movie-title">
+          <Link href={"/movies/" + movie._id} title={movie.Title}>{movie.Title}</Link>
+        </h3>
+        <div className="card-meta metadata">
+          {(year || genre) && <span className="card-genre" title={genre}>{[year, genre].filter(Boolean).join(" · ")}</span>}
+          {rating && <span className="card-rating">{rating}</span>}
+        </div>
+        <FavoriteButton movie={movie} {...favorite} />
+      </div>
+    </article>
+  );
+}

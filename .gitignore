@@ -6,3 +6,8 @@ node_modules
 .eslintrc.json
 .eslintrc.json
 .editorconfig
+
+.env
+.env.*
+!.env.example
+/build/
